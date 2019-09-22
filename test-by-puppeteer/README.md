@@ -1,7 +1,8 @@
 リポジトリからクローン後に実行するコマンド
 
 ```
-npm install -g qunit
+npm i -g qunit
+npm i -g puppeteer
 npm i puppeteer
 ```
 
@@ -25,5 +26,16 @@ https://github.com/Diokuz/puppeteer-request-mocker
 https://www.npmjs.com/package/puppeteer-request-spy ←npmパッケージで活発なのはこちらの模様。
 https://www.npmjs.com/package/puppeteer-request-mocker
 https://github.com/getdock/pptr-mock-server
+https://github.com/axiomhq/puppeteer-request-intercepter
 
 ---
+
+手軽そうだったので、今回は`pptr-mock-server`をインストール。
+githubのページでは`yarn`コマンドでのインストールが説明されていたが、
+`npm`でもインストール可能なので以下でインストール。
+
+```
+npm i -g pptr-mock-server
+npm i pptr-mock-server
+```
+

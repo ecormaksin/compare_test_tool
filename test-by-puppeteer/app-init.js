@@ -1,5 +1,7 @@
 const puppeteer = require('puppeteer');
 const QUnit = require('qunit');
+// const mockServer = require('pptr-mock-server');
+import mockServer from 'pptr-mock-server'
 
 const { module: testModule, test, skip } = QUnit;
 
@@ -21,21 +23,23 @@ testModule('App initialization', function(hooks) {
     await page.close();
   });
 
-  skip('Displays an error on failure', async function(assert) {
+  test('Displays an error on failure', async function(assert) {
     const page = await this.browser.newPage();
-    await page.setRequestInterception(true);
-    page.on('request', request => {
-      request.respond({
-        status: 500,
-        contentType: 'text/json',
-        body: {}
-      });
+    const baseAppUrl = 'http://localhost:3030';
+    this.mockRequest = await mockServer.init(page, {
+      baseAppUrl,
+      baseApiUrl: baseAppUrl + '/api/'
     });
-    await page.goto('http://localhost:3030');
-    await page.screenshot({path: 'displays_an_error_on_failure.png'});
 
-    // const todoList = await page.$$('.todo-list li');
-    // assert.equal(todoList.length, 0);
-    assert.equal(0, 0);
+    const responseConfig = {body: {}};
+    this.mockRequest.get('todos', 500, responseConfig);
+
+    const todoList = await page.$$('.todo-list li');
+    assert.equal(todoList.length, 0);
+
+    const error = await page.$$('.error');
+    assert.equal(error.length, 1)
+
+    await page.close();
   });
 });
