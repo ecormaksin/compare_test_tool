@@ -1,9 +1,8 @@
 リポジトリからクローン後に実行するコマンド
 
 ```
+npm install
 npm i -g qunit
-npm i -g puppeteer
-npm i puppeteer
 ```
 
 ---
@@ -38,4 +37,3 @@ githubのページでは`yarn`コマンドでのインストールが説明さ�
 npm i -g pptr-mock-server
 npm i pptr-mock-server
 ```
-
