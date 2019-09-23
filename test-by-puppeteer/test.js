@@ -7,7 +7,7 @@ const screenshotsDir = './screenshots/';
 
 testModule('IT用語辞典の検索', function(hooks) {
   hooks.before(async function() {
-    this.browser = await puppeteer.launch({headless: true});
+    this.browser = await puppeteer.launch({headless: false});
   });
   hooks.after(async function() {
     await this.browser.close();
