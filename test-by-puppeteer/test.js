@@ -3,11 +3,12 @@ const QUnit = require('qunit');
 
 const { module: testModule, test } = QUnit;
 
+const executablePath = process.env.NODE_KEY_CHROME_PATH;
 const screenshotsDir = './screenshots/';
 
 testModule('IT用語辞典の検索', function(hooks) {
   hooks.before(async function() {
-    this.browser = await puppeteer.launch({headless: false});
+    this.browser = await puppeteer.launch({headless: false, executablePath: executablePath});
   });
   hooks.after(async function() {
     await this.browser.close();

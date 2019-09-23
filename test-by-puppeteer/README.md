@@ -14,7 +14,10 @@ npm install
 
 # テストの実行
 
+デフォルトではChromiumが起動するので、環境変数でChromeのパスを指定する。
+
 ```
+NODE_KEY_CHROME_PATH="/Applications/Google Chrome.app/Contents/MacOS/Google Chrome" # Macの場合
 qunit test.js
 ```
 
