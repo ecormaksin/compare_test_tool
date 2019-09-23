@@ -1,3 +1,25 @@
+# 各プロジェクトのセットアップ
+
+- すべてのプロンプトで未入力（デフォルト）のままEnter
+
+```
+mkdir test-by-cypress
+cd test-by-cypress
+npm init
+```
+
+```
+mkdir test-by-puppeteer
+cd test-by-puppeteer
+npm init
+```
+
+```
+mkdir test-by-selenium
+cd test-by-selenium
+npm init
+```
+
 https://blog.bitsrc.io/top-javascript-testing-frameworks-in-demand-for-2019-90c76e7777e9
 
 # Github Star

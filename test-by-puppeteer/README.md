@@ -1,16 +1,21 @@
-リポジトリからクローン後に実行するコマンド
+# プロジェクトのセットアップ
+
+```
+npm i -g qunit
+npm i qunit
+npm i puppeteer
+```
+
+# リポジトリからクローン後に実行するコマンド
 
 ```
 npm install
-npm i -g qunit
 ```
 
----
-
-テストの実行コマンド
+# テストの実行
 
 ```
-qunit <対象のテストファイル>
+qunit test.js
 ```
 
 公式サイト[https://github.com/GoogleChrome/puppeteer]では`node <対象のスクリプト>`で実行していたが、テストの実行ではテスティングフレームワークのコマンドで実行が必要な模様。
@@ -26,14 +31,3 @@ https://www.npmjs.com/package/puppeteer-request-spy ←npmパッケージで活�
 https://www.npmjs.com/package/puppeteer-request-mocker
 https://github.com/getdock/pptr-mock-server
 https://github.com/axiomhq/puppeteer-request-intercepter
-
----
-
-手軽そうだったので、今回は`pptr-mock-server`をインストール。
-githubのページでは`yarn`コマンドでのインストールが説明されていたが、
-`npm`でもインストール可能なので以下でインストール。
-
-```
-npm i -g pptr-mock-server
-npm i pptr-mock-server
-```
