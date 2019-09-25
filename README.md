@@ -1,3 +1,12 @@
+# テスト用端末（VirtualBox上のUbuntu GUI）のセットアップ
+
+ansibleで必要なコンポーネントをセットアップする。
+
+```
+cd ./ansible
+ansible-playbook -i hosts -K setup.yml
+```
+
 # 各プロジェクトのセットアップ
 
 - すべてのプロンプトで未入力（デフォルト）のままEnter

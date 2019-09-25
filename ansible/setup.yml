@@ -1,0 +1,13 @@
+- hosts: test
+  become: yes
+  tasks:
+    - name: パッケージの更新
+      apt:
+        update_cache: yes
+        upgrade: yes
+    - name: gitのインストール
+      apt: name=git state=present
+    - name: nodejsのインストール
+      apt: name=nodejs state=present
+    - name: npmのインストール
+      apt: name=npm state=present
