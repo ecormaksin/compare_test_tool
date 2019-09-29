@@ -18,6 +18,7 @@ npm install
 
 ```
 NODE_KEY_CHROME_PATH="/Applications/Google Chrome.app/Contents/MacOS/Google Chrome" # Macの場合
+NODE_KEY_CHROME_PATH=$(which google-chrome) # Ubuntuの場合
 qunit test.js
 ```
 

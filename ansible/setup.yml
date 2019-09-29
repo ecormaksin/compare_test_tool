@@ -1,13 +1,102 @@
 - hosts: test
-  become: yes
   tasks:
+
+    #- name: curlのインストール
+    #  become: 'yes'
+    #  apt: name=curl state=present
+
+    #- name: chromeのAPTファイルが存在するかどうかの確認
+    #  command: test -f {{ apt_file }}
+    #  register: chrome_apt_exists
+    #  ignore_errors: yes
+
+    #- name: chromeのAPTキーを追加
+    #  shell: wget -q -O - https://dl.google.com/linux/linux_signing_key.pub | sudo apt-key add -
+    #  register: add_chrome_apt_key
+    #  when: chrome_apt_exists is failed
+
+    # - name: chromeのリポジトリを追加
+    #   copy: content='deb [arch=amd64] http://dl.google.com/linux/chrome/deb/ stable main' dest={{ apt_file }} owner=root group=root mode=644
+    #   register: add_chrome_repository
+    #   when: add_chrome_apt_key is succeeded
+
     - name: パッケージの更新
+      become: 'yes'
       apt:
         update_cache: yes
-        upgrade: yes
-    - name: gitのインストール
-      apt: name=git state=present
-    - name: nodejsのインストール
-      apt: name=nodejs state=present
-    - name: npmのインストール
-      apt: name=npm state=present
+
+    # - name: chromeのインストール
+    #   become: 'yes'
+    #   apt:
+    #     name: 'google-chrome-stable'
+    #     state: present
+    #   when: add_chrome_repository is succeeded
+
+    - name: nodejsのセットアップスクリプトをダウンロード
+      get_url: url=https://deb.nodesource.com/setup_12.x dest=/tmp mode=755
+      register: download_nodejs_setup_script
+
+    - name: nodejsのセットアップスクリプトを実行
+      become: 'yes'
+      command: /tmp/setup_12.x
+      when: download_nodejs_setup_script is succeeded
+
+    # - name: nodejsのセットアップスクリプトをダウンロード・実行
+    #   shell: wget -q -O - https://deb.nodesource.com/setup_12.x | sudo -E bash -
+
+    # chromeに必要なパッケージ: libxss1 libappindicator1 libindicator7
+    # cypressに必要なパッケージ: xvfb libgtk-3-dev libnotify-dev libgconf-2-4 libnss3 libxss1 libasound2 https://docs.cypress.io/guides/guides/continuous-integration.html#Dependencies
+    - name: 必要なパッケージのインストール
+      become: 'yes'
+      apt:
+        name: ['git', 'gcc', 'g++', 'make',
+'nodejs', 'npm', 'xvfb', 'libgtk-3-dev', 'libnotify-dev', 'libgconf-2-4', 'libnss3', 'libxss1', 'libasound2', 'libappindicator1', 'libindicator7']
+        state: present
+
+    # https://askubuntu.com/questions/79280/how-to-install-chrome-browser-properly-via-command-line
+    # - name: chromeのパッケージをダウンロード・インストール
+    #   shell: wget -q -O - https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb | sudo apt install -
+    #   register: install_chrome
+
+    - name: chromeのパッケージをダウンロード
+      get_url: url=https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb dest=/tmp mode=755
+      register: download_chrome_package
+
+    - name: chromeをインストール
+      become: 'yes'
+      apt:
+        deb: /tmp/google-chrome-stable_current_amd64.deb
+      when: download_chrome_package is succeeded
+      register: install_chrome
+
+    - name: chromeのインストールが失敗した時にコマンドを実行する
+      become: 'yes'
+      shell: apt install -f
+      when: install_chrome is failed
+
+    - name: npmで必要なパッケージをインストール
+      become: 'yes'
+      npm:
+        global: yes
+        name: 'qunit'
+
+    - name: 作業ディレクトリの作成
+      file:
+        path: ~/ws
+        state: directory
+        mode: '0755'
+      register: create_work_directory
+
+    - name: リポジトリのクローン
+      git:
+        repo: 'https://github.com/ecormaksin/compare_test_tool.git'
+        dest: ~/ws/compare_test_tool
+      register: clone_repository
+      when: create_work_directory is succeeded
+
+    - name: 各プロジェクトのpackage.jsonに基づきパッケージをインストールする
+      shell: npm install
+      args:
+        chdir: ~/ws/compare_test_tool/{{ item }}
+      with_items: [test-by-cypress, test-by-puppeteer, test-by-selenium]
+      when: clone_repository is succeeded

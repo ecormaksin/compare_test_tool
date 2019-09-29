@@ -1,7 +1,7 @@
 node_modules/
-screenshots/
+**/screenshots/**/*.png
 videos/
-ansible/hosts
+/ansible/hosts
 
 logs/
 *.log
