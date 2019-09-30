@@ -30,18 +30,26 @@ ansible-playbook --check -i hosts -K setup.yml
 mkdir test-by-cypress
 cd test-by-cypress
 npm init
+
+npm i cypress
 ```
 
 ```
 mkdir test-by-puppeteer
 cd test-by-puppeteer
 npm init
+
+npm i qunit
+npm i puppeteer
 ```
 
 ```
 mkdir test-by-selenium
 cd test-by-selenium
 npm init
+
+npm i qunit
+npm i selenium-webdriver
 ```
 
 # JavaScriptにおけるテスティング フレームワークに関する調査
