@@ -42,7 +42,9 @@ cd ./ansible
 ansible-playbook --check -i localhosts, -c local -K -v setup.yml
 ```
 
-# 各プロジェクトのセットアップ
+# （参考）各プロジェクトのセットアップ
+
+**プロジェクトを作成する時に実行したコマンドなので、リポジトリをクローンして実行する場合は実施不要。**
 
 - すべてのプロンプトで未入力（デフォルト）のままEnter
 
@@ -51,7 +53,7 @@ mkdir test-by-cypress
 cd test-by-cypress
 npm init
 
-npm i cypress
+npm i cypress --save-dev
 ```
 
 ```
