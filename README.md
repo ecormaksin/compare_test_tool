@@ -1,10 +1,30 @@
-# テスト用端末（VirtualBox上のUbuntu GUI）のセットアップ
+# テスト用端末（Ubuntu 18.04）のセットアップ
+
+gitをインストールする
+
+```
+sudo apt update
+sudo apt install -y git
+```
+
+ansibleをインストールする
+
+```
+sudo apt -y install python-pip python-dev
+sudo pip install ansible
+```
+
+任意のディレクトリへリポジトリをクローンする
+
+```
+git clone https://github.com/ecormaksin/compare_test_tool.git
+```
 
 ansibleで必要なコンポーネントをセットアップする。
 
 ```
 cd ./ansible
-ansible-playbook -i hosts -K setup.yml
+ansible-playbook -i hosts setup.yml
 ```
 
 参考
@@ -12,14 +32,14 @@ ymlの確認
 
 ```
 cd ./ansible
-ansible-playbook --syntax-check -i hosts -K setup.yml
+ansible-playbook --syntax-check -i hosts setup.yml
 ```
 
 変更の確認（変更はしない）
 
 ```
 cd ./ansible
-ansible-playbook --check -i hosts -K setup.yml
+ansible-playbook --check -i hosts setup.yml
 ```
 
 # 各プロジェクトのセットアップ

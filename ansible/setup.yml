@@ -1,17 +1,10 @@
-- hosts: test
+- hosts: localhost
 
   vars:
     nodejs_setup_script_path: /tmp/setup_12.x
     chrome_deb_path: /tmp/google-chrome-stable_current_amd64.deb
-    work_root_directory: "~/ws"
-    local_repository_root_directory: "{{ work_root_directory }}/compare_test_tool"
 
   tasks:
-
-    - name: パッケージの更新
-      become: 'yes'
-      apt:
-        update_cache: yes
 
     - name: nodejsのセットアップスクリプトをダウンロード
       get_url: url=https://deb.nodesource.com/setup_12.x dest=/tmp mode=755
@@ -36,10 +29,11 @@
 
     # chromeに必要なパッケージ: libxss1 libappindicator1 libindicator7
     # cypressに必要なパッケージ: xvfb libgtk-3-dev libnotify-dev libgconf-2-4 libnss3 libxss1 libasound2 https://docs.cypress.io/guides/guides/continuous-integration.html#Dependencies
+    # nodejsでネイティブ アドオンをビルドするために必要なパッケージ gcc g++ make
     - name: 必要なパッケージのインストール
       become: 'yes'
       apt:
-        name: ['git', 'gcc', 'g++', 'make',
+        name: ['gcc', 'g++', 'make',
 'nodejs', 'npm', 'xvfb', 'libgtk-3-dev', 'libnotify-dev', 'libgconf-2-4', 'libnss3', 'libxss1', 'libasound2', 'libappindicator1', 'libindicator7']
         state: present
 
@@ -82,27 +76,5 @@
         global: yes
         name: 'qunit'
 
-    - name: 作業ディレクトリの作成
-      file:
-        path: "{{ work_root_directory }}"
-        state: directory
-        mode: '0755'
-
-    - name: 作業ディレクトリの存在をチェック
-      stat:
-        path: "{{ work_root_directory }}"
-      register: do_exist_work_root_directory
-
-    - name: リポジトリのクローン
-      git:
-        repo: 'https://github.com/ecormaksin/compare_test_tool.git'
-        dest: "{{ local_repository_root_directory }}"
-      register: clone_repository
-      when: do_exist_work_root_directory.stat.exists
-
     - name: 各プロジェクトのpackage.jsonに基づきパッケージをインストールする
-      shell: npm install
-      args:
-        chdir: "{{ local_repository_root_directory }}/{{ item }}"
-      with_items: [test-by-cypress, test-by-puppeteer, test-by-selenium]
-      when: clone_repository is succeeded
+      script: npm_install.sh creates=/tmp/npm_install_executed
