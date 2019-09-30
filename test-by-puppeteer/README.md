@@ -1,11 +1,3 @@
-# プロジェクトのセットアップ
-
-```
-npm i -g qunit
-npm i qunit
-npm i puppeteer
-```
-
 # テストの実行
 
 デフォルトではChromiumが起動するので、環境変数でChromeのパスを指定する。
