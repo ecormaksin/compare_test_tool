@@ -24,7 +24,7 @@ ansibleで必要なコンポーネントをセットアップする。
 
 ```
 cd ./ansible
-ansible-playbook -i hosts -K setup.yml
+ansible-playbook -i localhosts, -c local -K -v setup.yml
 ```
 
 参考
@@ -32,14 +32,14 @@ ymlの確認
 
 ```
 cd ./ansible
-ansible-playbook --syntax-check -i hosts -K setup.yml
+ansible-playbook --syntax-check -i localhosts, -c local -K setup.yml
 ```
 
 変更の確認（変更はしない）
 
 ```
 cd ./ansible
-ansible-playbook --check -i hosts -K setup.yml
+ansible-playbook --check -i localhosts, -c local -K -v setup.yml
 ```
 
 # 各プロジェクトのセットアップ
