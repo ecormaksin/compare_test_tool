@@ -75,6 +75,3 @@
       npm:
         global: yes
         name: 'qunit'
-
-    - name: 各プロジェクトのpackage.jsonに基づきパッケージをインストールする
-      script: npm_install.sh creates=/tmp/npm_install_executed
