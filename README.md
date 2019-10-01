@@ -10,8 +10,7 @@ sudo apt install -y git
 ## ansibleのインストール
 
 ```shell
-sudo apt -y install python-pip python-dev
-pip install ansible
+sudo apt -y install python-pip python-dev ansible
 ```
 
 ## リポジトリのクローン
